@@ -1,12 +1,27 @@
+# %%
+
+# To check which directory jupyter is located at
+# import os
+# print(os.getcwd())
+
+# %%
+# Note: It is not recommended to listen to the loud.wav file
+# It is only made for the reason to see the frequency differences in spectrogram
 import pyaudio
 import wave
+import matplotlib.pyplot as plt
+import numpy as np
 
+from scipy.io.wavfile import read
+from scipy import signal
+
+# %%
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 44100
 RECORD_SECONDS = 5
-WAVE_OUTPUT_FILENAME = "output.wav"
+WAVE_OUTPUT_FILENAME = "normal.wav"
 
 p = pyaudio.PyAudio()
 
@@ -36,3 +51,21 @@ wf.setsampwidth(p.get_sample_size(FORMAT))
 wf.setframerate(RATE)
 wf.writeframes(b''.join(frames))
 wf.close()
+
+# %%
+# https://stackoverflow.com/questions/44787437/how-to-convert-a-wav-file-to-a-spectrogram-in-python3
+
+files = ["loud.wav", "normal.wav"]
+for i in range(len(files)):
+    sample_rate, samples = read(files[i])
+    frequencies, times, spectrogram = signal.spectrogram(samples[50000:65000, 0], sample_rate)
+    plt.subplot(1,2,i+1)
+    plt.pcolormesh(times, frequencies, spectrogram)
+    plt.imshow(spectrogram)
+    plt.ylabel('Frequency [Hz]')
+    plt.xlabel('Time [sec]')
+plt.show()
+# %%
+
+
+# %%
