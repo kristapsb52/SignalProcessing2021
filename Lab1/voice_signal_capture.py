@@ -11,6 +11,7 @@ import pyaudio
 import wave
 import matplotlib.pyplot as plt
 import numpy as np
+import soundfile
 
 from scipy.io.wavfile import read
 from scipy import signal
@@ -66,6 +67,11 @@ for i in range(len(files)):
     plt.xlabel('Time [sec]')
 plt.show()
 # %%
-
+# Add noise to the normal.wav
+noise = np.random.normal(100, 20, len(samples))
+noisy_signal = samples[:, 0] + noise
+# https://stackoverflow.com/questions/63898448/add-noise-to-audio-file-and-reconvert-the-noisy-signal-using-librosa-python
+soundfile.write('noisy_normal.wav', noisy_signal, sample_rate)
+# NOTE: IT IS NOT RECOMMENDED TO LISTEN TO THIS AUDIO FILE
 
 # %%
