@@ -75,3 +75,8 @@ soundfile.write('noisy_normal.wav', noisy_signal, sample_rate)
 # NOTE: IT IS NOT RECOMMENDED TO LISTEN TO THIS AUDIO FILE
 
 # %%
+# Inverting normal.wav
+sample_rate, samples = read("normal.wav")
+data = samples[::-1]
+soundfile.write("inverted_normal.wav", data, samplerate=sample_rate)
+# %%
